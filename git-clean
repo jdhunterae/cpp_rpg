@@ -1,0 +1,70 @@
+#! /usr/bin/python3
+import os
+import time
+
+REPO_ROOT = "."
+BUILD_DIR = "build"
+IGNORE_DIRS = ["src_raw", ".git"]
+LOGFILE_NAME = "git-clean.log"
+NOW = time.asctime(time.localtime(time.time()))
+
+
+def pretty_print(num, out_of, message):
+  if out_of == 0:
+    num = 1
+    out_of = 1
+  print("[%3s%%]  %s" % (str(int(float(num) / float(out_of) * 100)), message))
+
+
+def clean_directory(directory_to_clean):
+  for directory, sub_directories, files in os.walk(directory_to_clean, topdown=False):
+    for filename in files:
+      os.remove(os.path.join(directory, filename))
+    for folder in sub_directories:
+      os.rmdir(os.path.join(directory, folder))
+
+
+def clean_build_directories(dirty_directories):
+  print("Scanning build directories to be cleaned")
+  index = 0
+  for directory in dirty_directories:
+    index += 1
+    pretty_print(index, len(dirty_directories), directory)
+    clean_directory(directory)
+  pretty_print(index, len(dirty_directories), "Cleaned build directoriess")
+
+
+def is_dirty(build_path):
+  has_dirt = False
+  for directory, sub_directories, files in os.walk(build_path):
+    if len(sub_directories) > 0 or len(files) > 0:
+      has_dirt = True
+    break
+  return has_dirt
+
+
+def get_all_build_directories():
+  build_dirs = []
+  for directory, sub_directories, files in os.walk(REPO_ROOT):
+    sub_directories[:] = [d for d in sub_directories if d not in IGNORE_DIRS]
+    for sub_directory in sub_directories:
+      if sub_directory == BUILD_DIR:
+        build_dirs.append(os.path.join(directory, sub_directory))
+  return build_dirs
+
+
+def main():
+  folders = get_all_build_directories()
+  dirty_directories = [folder for folder in folders if is_dirty(folder)]
+
+  clean_build_directories(dirty_directories)
+
+  with open(LOGFILE_NAME, 'a') as logfile:
+    logfile.write(("#" * 45) + "\n" + NOW + "\n" + ("#" * 45) + "\n")
+
+    for folder in dirty_directories:
+      logfile.write(folder + "\n")
+
+
+if __name__ == "__main__":
+  main()
