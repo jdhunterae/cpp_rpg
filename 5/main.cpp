@@ -62,7 +62,7 @@ Creature dialogue_newchar() {
       return Creature(name, 35, 20, 10, 5, 10.0, 1, "Fighter");
       break;
     case 2:
-      return Creature(name, 30, 5, 10, 20, 15.0, 1, "Fighter");
+      return Creature(name, 30, 5, 10, 20, 15.0, 1, "Rogue");
       break;
     default:
       return Creature(name, 30, 10, 10, 10, 10.0, 1, "Adventurer");
