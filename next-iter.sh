@@ -7,8 +7,11 @@ curr_max=1
 ### find current highest directory ###
 for d in */
 do
-  if [ $curr_max -lt ${d%/} ]
-    then curr_max=${d%/}
+  if [[ ${d%/} =~ ^-?[0-9]+$ ]]
+    then
+    if [ $curr_max -lt ${d%/} ]
+      then curr_max=${d%/}
+    fi
   fi
 done
 
