@@ -9,3 +9,4 @@
 6. __Area__ : _sets up a simple **Area** class that represents a place, the field, a room, etc. is a container with **Creatures** and **Inventory** of **Items**._
 7. __Atlases__ : _non-mutable data to populate the game with various **Items**, **Creatures**, and **Areas**._
 8. __Battles__ : _adds battle interaction/interface to the game._
+9. __Menus__ : _uses **Dialogue** class to set up inventory and equipment menu interactions._
