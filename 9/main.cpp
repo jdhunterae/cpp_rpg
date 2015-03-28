@@ -123,6 +123,7 @@ Creature dialogue_newchar() {
 void dialogue_menu(Creature& player) {
   int result = Dialogue("Menu\n====",
     {"Items", "Equipment", "Character"}).activate();
+  int result2;
 
   switch (result) {
     case 1:
@@ -149,7 +150,7 @@ void dialogue_menu(Creature& player) {
           player.equippedWeapon->name : "Nothing")
         << std::endl;
 
-      int result2 = Dialogue("",
+      result2 = Dialogue("",
         {"Equip Armour", "Equip Weapon", "Close"}).activate();
 
       if (result2 == 1) {
@@ -193,18 +194,18 @@ void dialogue_menu(Creature& player) {
           }
         }
       }
-      std::cout << "-------------\n"
+      std::cout << "-------------\n";
       break;
     case 3:
       std::cout << "Character\n==========" << std::endl;
       std::cout << player.name;
       if (player.className != "") std::cout << " the " << player.className;
       std::cout << std::endl;
-      std::cout << "HP:  " << player.health << "/" << player.healthMax << std::endl;
+      std::cout << "HP:  " << player.health << "/" << player.maxHealth << std::endl;
       std::cout << "STR: " << player.str << std::endl;
       std::cout << "END: " << player.end << std::endl;
       std::cout << "DEX: " << player.dex << std::endl;
-      std::cout << "LVL: " << player.level << "(" << player.exp << "/" << player.expToLevel(player.level+1) << ")" << std::endl;
+      std::cout << "LVL: " << player.level << " (" << player.exp << "/" << player.expToLevel(player.level+1) << ")" << std::endl;
       std::cout << "------------" << std::endl;
       break;
     default:
